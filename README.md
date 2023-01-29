@@ -1,4 +1,6 @@
-# Getting Started with Create React App
+# Overview
+
+Plat Map is intended to explor the idea of extending the capabilities of Mapbox Draw to define and manage tracts and parcels.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
