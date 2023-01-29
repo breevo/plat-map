@@ -6,7 +6,7 @@ import {Feature, Polygon, Geometry, GeoJsonObject} from 'geojson';
 
 import DrawControl from './draw-control';
 import ControlPanel from './control-panel';
-import Plat from './plat';
+import PlatPanel from './plat-panel';
 
 import './App.css';
 
@@ -66,8 +66,7 @@ function App() {
           onDelete={onDelete}
         />
       </Map>
-      <Plat features={Object.values(features)} />
-      <ControlPanel polygons={Object.values(features)} />
+      <PlatPanel polygons={Object.values(features)} />
     </div>
     </div>
   );
