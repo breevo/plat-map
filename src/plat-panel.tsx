@@ -7,17 +7,20 @@ import './plat-panel.css';
 
 
 function areaInAcres(polygon: Feature<Polygon>) {
-    return metersSquareToAcres(Math.round(area(polygon) * 100) / 100);
-  }
+   return metersSquareToAcres(Math.round(area(polygon) * 100) / 100);
+}
   
-  function metersSquareToAcres(area: any) {
-    return area * 0.0002471054;
-  }
+function metersSquareToAcres(area: any) {
+  return area * 0.0002471054;
+}
   
+function round(value: number, precision: number) : number {
+    return (Math.round((10 * precision) * value)) / (10 * precision);
+}
 
 function PlatPanel(props: { polygons: Feature<Polygon>[]; }) {
     let polygonArea = 0;
-//   let polygons: Feature<Polygon>[] = props.polygons;
+    let tractCount = props.polygons.length;
   
   console.info("Polygons: ", props.polygons);
 
@@ -36,26 +39,24 @@ function PlatPanel(props: { polygons: Feature<Polygon>[]; }) {
         )
       })
       return (
-        <div>
-            <div>Tract {polyIndex + 1}</div>
-            <div>{areaInAcres(poly)} acres</div>
-            <div>Coordinates</div>
-            <div>{items}</div>
+        <div className="tract">
+            <div>Tract {polyIndex + 1} ({round(areaInAcres(poly), 1)} acres)</div>
+            <div className="sub-header">Coordinates</div>
+            <div className="coordinate-panel"><ul>{items}</ul></div>
         </div>)
     })
   }
 
   return (
     <div className="plat-panel">
-      <h3>Tracts</h3>
+      <h1>Tracts</h1>
       {polygonArea > 0 && (
         <p>
-          Total area: {metersSquareToAcres(polygonArea)} &nbsp;
-          acres
+            {tractCount} tracts ({round(metersSquareToAcres(polygonArea), 2)} acres)
         </p>
       )}
       {props.polygons && (
-      <div className="polygons">
+      <div>
         {printCoordinates(props.polygons)}
       </div>
 

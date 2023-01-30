@@ -3,21 +3,41 @@
     top: 0;
     right: 0;
     max-width: 320px;
+    max-height: 200px;
+    overflow: scroll;
     text-align: left;
     background: #fff;
     box-shadow: 0 2px 4px rgba(0,0,0,0.3);
     padding: 12px 24px;
     margin: 20px;
     font-size: 13px;
-    line-height: 2;
+    line-height: 1;
     color: #6b6b76;
-    text-transform: uppercase;
     outline: none;
-    max-height: 200px;
-    overflow-y: scroll;
+}
+
+.plat-panel h1 {
+    font-size: x-large;
+    line-height: 1;
+    text-transform: uppercase;
 }
 
 .polygons {
     overflow-y: scroll;
     max-height: 200px;
+}
+
+.tract {
+    line-height: 1;
+    max-height: 200px;
+    overflow-y: scroll;
+}
+
+.tract .sub-header {
+    line-height: 1;
+}
+
+.tract .coordinate-panel {
+    overflow: hidden;
+    margin: 0, 0, 0, 0px;
 }
