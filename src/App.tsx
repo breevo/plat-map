@@ -1,11 +1,11 @@
 import React from 'react';
 
+import { GeoJSONSource } from 'react-map-gl';
 import {useState, useCallback} from 'react';
 import Map from 'react-map-gl';
 import {Feature, Polygon, Geometry, GeoJsonObject} from 'geojson';
 
 import DrawControl from './draw-control';
-import ControlPanel from './control-panel';
 import PlatPanel from './plat-panel';
 
 import './App.css';
@@ -37,6 +37,55 @@ function App() {
     });
   }, []);
 
+    const onLoad = useCallback(e => {
+      setFeatures(currFeatures => {
+        const newFeatures = {...currFeatures};
+        console.info("onXXX called!! -->", e);
+        e.target.addSource('saved-tracts', 
+                      {type: "geojson", data: {
+                        type: 'Feature', geometry: {
+                          type: 'Polygon', coordinates:
+                            [
+                              [
+                              [-84.09664418683968, 30.344758219152112],
+                              [-84.09274120450422, 30.34531649572932],
+                              [-84.09422908174795, 30.340515213101938],
+                              [-84.09664418683968, 30.344758219152112]
+                              ]
+                            ]      
+                          }
+                        }
+                      });
+        e.target.addLayer({
+            id: 'saved-tracts-shade',
+            type: 'fill',
+            source: 'saved-tracts', // reference the data source
+            layout: {},
+            paint: {
+              'fill-color': '#0080ff', // blue color fill
+              'fill-opacity': 0.5
+            }
+          });
+        e.target.addLayer({id: 'saved-tracts-outline', 
+                          type: 'line', 
+                          source: 'saved-tracts', 
+                          layout: {}, 
+                          paint: {
+                            'line-color': '#000',
+                            'line-width': 3
+                          }});
+
+        e.target.fitBounds([
+          [-84.09664418683968, 30.344758219152112],
+          [-84.09274120450422, 30.34531649572932],
+        ], {
+          maxZoom: 14
+        });
+        return newFeatures;
+      
+      });
+
+  }, []);
 
   return (
     <div className="App">
@@ -46,12 +95,13 @@ function App() {
       <div id='map'>
       <Map
         initialViewState={{
-          longitude: -91.874,
-          latitude: 42.76,
+          longitude: -84.2779765322549,
+          latitude: 30.373922250390194,
           zoom: 12
         }}
         mapStyle="mapbox://styles/mapbox/satellite-v9"
         mapboxAccessToken={TOKEN}
+        onLoad={onLoad}
       >
         <DrawControl
           position="top-left"
@@ -63,7 +113,7 @@ function App() {
           defaultMode="draw_polygon"
           onCreate={onUpdate}
           onUpdate={onUpdate}
-          onDelete={onDelete}
+          onDelete={onDelete}          
         />
       </Map>
       <PlatPanel polygons={Object.values(features)} />
